@@ -12,14 +12,13 @@ import styles from '../styles/Home.module.css'
 import  Grid  from '@mui/material/Grid';
 import { textTransform } from '@mui/system';
 import { IconButton } from '@mui/material';
-import Image from 'next/image';
 
-
-function Explore(){
+function Clubs(){
   return(
     <>
     <Layout>
       <Box sx={{p:5}}>
+      <Typography variant='h5' sx={{color:"white", mb:5}}>Active Investment Clubs</Typography>
           <Grid
            container
            rowSpacing={1}
@@ -45,15 +44,7 @@ function Explore(){
                 Lazy Group
                 </Typography>
                 <Typography gutterBottom sx={{color:"white"}} variant="body2" >
-                Subscribe for 0.3ETH with 
-                <a>
-                    <Image
-                    src={"/images/image.png"}
-                    width={45}
-                    height={32}
-                    alt={`superfluid Icon`}
-                />
-                </a>
+                Subscribe for 0.3ETH
                 </Typography>
                 <Typography sx={{color:"white"}} variant="body2" >
                 6 Members
@@ -65,21 +56,7 @@ function Explore(){
                 display:"flex",
                 flexDirection:"column"
             }}>
-            <Button 
-                sx={{
-                    my:3,
-                    backgroundColor:"#034082",
-                    color:"white",
-                    cursor:"pointer",
-                    textTransform:"none"
-                }}
-                fullWidth 
-                    startIcon={
-                        <IconButton>
-                            <GroupAddIcon sx={{color:"white"}}/>
-                        </IconButton>
-                    }
-                variant='contained' size="medium">Join Club</Button>
+            
                 <Button
                 sx={{
                     mb:3,
@@ -87,7 +64,7 @@ function Explore(){
                     cursor:"pointer",
                     backgroundColor:"rgb(11, 11, 11)",
                 }}
-                 fullWidth variant='outlined' size="medium">Learn More</Button>
+                 fullWidth variant='outlined' size="medium">View Club</Button>
             </Box>
             </Card>
             </Grid>
@@ -124,21 +101,7 @@ function Explore(){
                 display:"flex",
                 flexDirection:"column"
             }}>
-            <Button 
-                sx={{
-                    my:3,
-                    backgroundColor:"#034082",
-                    color:"white",
-                    cursor:"pointer",
-                    textTransform:"none"
-                }}
-                fullWidth 
-                    startIcon={
-                        <IconButton>
-                            <GroupAddIcon sx={{color:"white"}}/>
-                        </IconButton>
-                    }
-                variant='contained' size="medium">Join Club</Button>
+            
                 <Button
                 sx={{
                     mb:3,
@@ -146,7 +109,7 @@ function Explore(){
                     cursor:"pointer",
                     backgroundColor:"rgb(11, 11, 11)",
                 }}
-                 fullWidth variant='outlined' size="medium">Learn More</Button>
+                 fullWidth variant='outlined' size="medium">View Club</Button>
             </Box>
             </Card>
             </Grid>
@@ -183,21 +146,7 @@ function Explore(){
                 display:"flex",
                 flexDirection:"column"
             }}>
-            <Button 
-                sx={{
-                    my:3,
-                    backgroundColor:"#034082",
-                    color:"white",
-                    cursor:"pointer",
-                    textTransform:"none"
-                }}
-                fullWidth 
-                    startIcon={
-                        <IconButton>
-                            <GroupAddIcon sx={{color:"white"}}/>
-                        </IconButton>
-                    }
-                variant='contained' size="medium">Join Club</Button>
+            
                 <Button
                 sx={{
                     mb:3,
@@ -205,7 +154,7 @@ function Explore(){
                     cursor:"pointer",
                     backgroundColor:"rgb(11, 11, 11)",
                 }}
-                 fullWidth variant='outlined' size="medium">Learn More</Button>
+                 fullWidth variant='outlined' size="medium">View Club</Button>
             </Box>
             </Card>
             </Grid>
@@ -242,21 +191,7 @@ function Explore(){
                 display:"flex",
                 flexDirection:"column"
             }}>
-            <Button 
-                sx={{
-                    my:3,
-                    backgroundColor:"#034082",
-                    color:"white",
-                    cursor:"pointer",
-                    textTransform:"none"
-                }}
-                fullWidth 
-                    startIcon={
-                        <IconButton>
-                            <GroupAddIcon sx={{color:"white"}}/>
-                        </IconButton>
-                    }
-                variant='contained' size="medium">Join Club</Button>
+            
                 <Button
                 sx={{
                     mb:3,
@@ -264,7 +199,7 @@ function Explore(){
                     cursor:"pointer",
                     backgroundColor:"rgb(11, 11, 11)",
                 }}
-                 fullWidth variant='outlined' size="medium">Learn More</Button>
+                 fullWidth variant='outlined' size="medium">View Club</Button>
             </Box>
             
             </Card>
@@ -280,4 +215,4 @@ function Explore(){
   )
 }
 
-export default Explore
+export default Clubs

@@ -72,7 +72,7 @@ export default function DrawerMenu() {
              
             </ListItem>
             </Link>
-            
+            <Link href="/clubs" passHref>
             <ListItem
             sx={{
                 cursor:"pointer",
@@ -84,7 +84,7 @@ export default function DrawerMenu() {
                         // backgroundColor:"white"
                     }
             }}  >
-                <Tooltip title="My Group">
+                <Tooltip title="My Clubs">
                 <ListItemIcon
                         sx={{
                             borderRadius: (theme) => theme.shape.borderRadius,
@@ -97,6 +97,8 @@ export default function DrawerMenu() {
            
              
             </ListItem>
+            </Link>
+           
             <ListItem
             sx={{
                 cursor:"pointer",

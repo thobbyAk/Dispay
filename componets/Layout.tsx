@@ -8,6 +8,7 @@ import React, { ReactElement } from "react";
 // import PageHead from "./PageHead";
 // import PageTitle from "./PageTitle";
 import Sidebar from "./Sidebar";
+import Meta from "./meta";
 
 const Layout = ({
     children,
@@ -23,6 +24,7 @@ const Layout = ({
         <>
             {/* <PageHead headTitle={headTitle} /> */}
             <div id="main-wrapper">
+                <Meta/>
                 <Header />
                 {/* <Sidebar /> */}
                     <Box
