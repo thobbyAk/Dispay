@@ -21,7 +21,7 @@ function Home(){
     description:string;
     monthlySubscriptionPrice: number;
   }
-  const {register, handleSubmit, formState:{errors}} = useForm<FormValues>()
+  const {register, handleSubmit, formState:{errors}, reset} = useForm<FormValues>()
   
   const onSubmit = async (data: any) =>{
 
@@ -32,9 +32,10 @@ function Home(){
         body: JSON.stringify(data)
     };
 
-    const response = await fetch(`https://dispay.herokuapp.com/clubs`, requestOptions);
-    const jsonData = await response.json();
+    // const response = await fetch(`https://dispay.herokuapp.com/clubs`, requestOptions);
+    // const jsonData = await response.json();
     setSuccessModal(true);
+    reset();
   }
   const modalStyle = {
     position: "absolute",
