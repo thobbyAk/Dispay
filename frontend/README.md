@@ -6,7 +6,6 @@ A simple MVP Dashboard where a group of friends come together to buy NFT
 
 - clone the repo at https://github.com/thobbyAk/Dispay
 - cd to the frontend folder `cd frontend`
-- cd to the dispay folder `cd dispay`
 
 ### `npm install`
 
