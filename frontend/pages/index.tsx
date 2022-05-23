@@ -821,7 +821,7 @@ const router = useRouter();
                       {getValues("depositEndDate")}</Typography>
                       <Typography variant='body1' sx={{color:"white", mt:3, textAlign:"left"}}>What’s the maximum number of members?</Typography>
                       <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>
-                      Groups may have up to 99 members according to the SEC. Syndicate 
+                      Groups may have up to 99 members according to the SEC. Dyspay 
                       encourages all users to consult with their own legal and tax counsel.
                         </Typography>
 
