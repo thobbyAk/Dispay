@@ -7,3 +7,8 @@ export const shortenAddress = (address: string) => {
     if (address.length < 10) return address;
     return address.slice(0, 4) + "..." + address.slice(-4);
   };
+
+  export const toTimestamp = (strDate: any) => {
+    var datum = Date.parse(strDate); return datum/1000;
+  }
+

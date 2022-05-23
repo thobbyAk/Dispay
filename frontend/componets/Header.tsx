@@ -33,6 +33,7 @@ import { ethers } from 'ethers';
 import { shortenAddress } from './utils/util';
 import Container from '@mui/material/Container';
 import Link from 'next/link';
+import Web3Modal from "web3modal";
 
 const drawerWidth = 140;
 
@@ -79,6 +80,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const providerOptions = {};
+  // const web3Modal = new Web3Modal({
+  //   network: "rinkeby", // optional
+  //   cacheProvider: true, // optional
+  //   providerOptions // required
+  // });
     const [userAddress, setWalletAddress] = React.useState("")
     const [noMetamaskModal, shownoMetamaskModal] = React.useState(false);
     const noMetaMaskModalClose = () => {
@@ -115,6 +122,7 @@ export default function Header() {
                 })
                 setWalletAddress(accounts[0]);
                 localStorage.setItem("account", accounts[0]);
+
             } catch (error) {
                 console.log(error)
             }
@@ -132,6 +140,32 @@ export default function Header() {
 
         }
     }
+    async function disconnect() {
+      // const clear = await web3Modal.clearCachedProvider();
+      setWalletAddress("");
+      localStorage.removeItem("account");
+    }
+    // React.useState(()=>{
+    //   if((window as any).ethereum !== 'undefined') {
+    //     (window as any).ethereum.on('chainChanged', async () => {
+    //       const accounts = await (window as any).ethereum.request({
+    //         method: "eth_requestAccounts"
+    //     })
+    //     setWalletAddress(accounts[0]);
+    //     localStorage.setItem("account", accounts[0]);
+    //       // window.location.reload();
+    //     })
+    //     (window as any).ethereum.on('accountsChanged', async () => {
+    //       const accounts = await (window as any).ethereum.request({
+    //         method: "eth_requestAccounts"
+    //     })
+    //     setWalletAddress(accounts[0]);
+    //     localStorage.setItem("account", accounts[0]);
+    //       // window.location.reload();
+    //     })
+    // }
+
+    // },[])
 
     const modalStyle = {
         position: "absolute",
@@ -166,7 +200,7 @@ export default function Header() {
     </Modal>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-      position="sticky"
+      position="fixed"
       sx={{
         backgroundColor:"black"
       }}
@@ -214,28 +248,32 @@ export default function Header() {
          variant="h6"
          noWrap
          component="div"
-         sx={{ flexGrow: 1, }}
+         sx={{ 
+           display:{xs: "none", md:"flex", sm:"flex"},
+           flexGrow: 1, }}
        >
          Portfolio
          
        </Typography>
        <Box sx={{
-         ml:15
+         ml:{sx:0, md:15, sm:15}
        }}>
        <Link href="/">
             <a>
             <Image
-                src={"/images/dispay.png"}
-                width={45}
+                src={"/images/lootbase-white.png"}
+                width={60}
                 height={32}
-                alt={`Dispay Icon`}
+                alt={`lootbase Icon`}
             />
             </a>
         </Link>
        </Box>
        <Box sx={{ flexGrow: 1 }} />
      
-       <Box>
+       <Box sx={{
+         display:"flex"
+       }}>
        {
            userAddress ? (
                <>
@@ -386,6 +424,7 @@ export default function Header() {
                 </ListItem>
                 <ListItem>
                   <Button 
+                  onClick={(disconnect)}
                   fullWidth
                   sx={{
                     border:"none",
@@ -453,7 +492,7 @@ export default function Header() {
                     background: "#131416"
                    } ,
                 }} >
-                  <ListItemButton  component="a" href="#Discord">
+                  <ListItemButton  component="a" href="https://discord.gg/NMY68wfA">
                     <ListItemText sx={{color:"white"}} primary="Discord" />
                     
                   </ListItemButton>
@@ -464,8 +503,8 @@ export default function Header() {
                       background: "#131416"
                      } ,
                   }} >
-                  <ListItemButton component="a" href="#Twitter">
-                    <ListItemText sx={{color:"white"}} primary="Twitter" />
+                  <ListItemButton component="a" href="https://www.instagram.com/dyspay.finance/">
+                    <ListItemText sx={{color:"white"}} primary="Instagram" />
                     
                   </ListItemButton>
                 </ListItem>

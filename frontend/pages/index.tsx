@@ -9,6 +9,8 @@ import Layout from '../componets/Layout'
 import styles from '../styles/Home.module.css'
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from "react-hook-form";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,7 +20,9 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Image from 'next/image';
 import Factory from "../abi/Factory.json"
 import Web3Modal from "web3modal"
+import { toTimestamp } from '../componets/utils/util';
 import { ethers } from "ethers";
+import { useRouter } from "next/router";
 
 import { LargeNumberLike } from 'crypto';
 import { Container } from 'reactstrap';
@@ -27,6 +31,7 @@ import { Container } from 'reactstrap';
 import {
   FactoryAddress
 } from '../config';
+import Link from 'next/link';
 
 
 
@@ -39,13 +44,21 @@ function Home({tokens}:{
     address: string,
     logoURI: string
   }
+const router = useRouter();
+
+  const [loading, setLoading] = React.useState(false);
   const [group, setGroup] = React.useState(false);
+  const [botSetup, setBotsetup] = React.useState(false);
+  const [userAddress, setWalletAddress] = React.useState("")
+  const [botId, setBotId] = React.useState("")
+  const [newGroupDetails, setNewGroupDetails] = React.useState([])
   const [firstStep, setFirstStep] = React.useState(true);
   const [secondStep, setSecondStep] = React.useState(false);
   const [thirdStep, setThirdStep] = React.useState(false);
   const [fourthStep, setFourthStep] = React.useState(false);
   const [depositDate, setDepositDate] = React.useState(null);
   const [successModal, setSuccessModal] = React.useState(false);
+  const [botModal, setBotModal] = React.useState(false);
   const [currentToken, setCurrentToken] = React.useState(tokens[0]?.address);
   const [openDate, setOpenDate] = React.useState(false);
   const [currentTokenDetails, setCurrentTOkenDetails] = React.useState<tokenValues>({
@@ -56,9 +69,12 @@ function Home({tokens}:{
   const successModalClose = () => {
     setSuccessModal(false);
   };
+  const botModalClose = () => {
+    setBotModal(false);
+  };
   type FormValues = {
-    name: string;
-    description:string;
+    groupName: string;
+    groupSymbol:string;
     address:string;
     depositLimit: string;
     depositEndDate: string;
@@ -66,8 +82,8 @@ function Home({tokens}:{
   }
   const {register, handleSubmit, getValues, formState:{ dirtyFields}, reset} = useForm<FormValues>({
     defaultValues :{
-      name: "",
-      description: ""
+      groupName: "",
+      groupSymbol: ""
     }
   })
   
@@ -82,24 +98,72 @@ function Home({tokens}:{
   const showThirdStep = () => {
     setFirstStep(false);
     setSecondStep(false);
-    setThirdStep(true)
-    setFourthStep(false)
+    setThirdStep(true);
+    setFourthStep(false);
 
   }
 
   const showFourthStep = () => {
     setFirstStep(false);
     setSecondStep(false);
-    setThirdStep(false)
-    setFourthStep(true)
+    setThirdStep(false);
+    setFourthStep(true);
   }
   const showFirstStep = () => {
     setFirstStep(true);
     setSecondStep(false);
-    setThirdStep(false)
-    setFourthStep(false)
+    setThirdStep(false);
+    setFourthStep(false);
 
   }
+  React.useEffect(() => {
+    if (router.isReady) {
+      console.log('reactor', router.query)
+      const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+      if(groupDetails !== ''){
+        checkIfGroupIsActivated();
+
+      }
+
+  
+    }
+  }, [router.isReady, router.query, router.pathname]);
+
+
+  const checkIfGroupIsActivated = async () => {
+    const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+      const currentGroupAddress: any = groupDetails?.args[0]
+      console.log("groupDetails", groupDetails)
+      const data = {
+        groupAddress: currentGroupAddress
+      }
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+      const response = await fetch(`http://207.154.202.18:3000/bot`, requestOptions);
+      const jsonData = await response.json();
+      if(jsonData.status === "Activated"){
+        router.push({
+          pathname: "/dashboard",
+        });
+      }else{
+        return
+      }
+  }
+
+  React.useEffect(() => {
+    if (router.isReady) {
+      console.log('reactor', router.query)
+      const query = router.query;
+      if (query.bot == "true") {
+         setBotsetup(true);
+      }else{
+        return
+      }
+    }
+  }, [router.isReady, router.query, router.pathname]);
 
   React.useEffect(()=> {
     tokens.forEach((element: any) => {
@@ -118,7 +182,24 @@ function Home({tokens}:{
   
   }
   const onSubmit = async (data: any) =>{
-    console.log("data")
+    console.log("data", data);
+    const address: any = [];
+
+    const botAddress = "0xac9122168d18e28Ef181406533583A3486D9FA4B";
+      if(localStorage.getItem("account")){
+        const existingUser: any = localStorage.getItem("account")
+    console.log("address user", existingUser)
+    address.push(existingUser);
+
+
+        setWalletAddress(existingUser);
+    console.log("address user", userAddress)
+
+      } else {
+        return
+      }
+    address.push(botAddress);
+    console.log("address array", address)
     // console.log("data",data)
     //   const requestOptions = {
     //     method: 'POST',
@@ -126,27 +207,107 @@ function Home({tokens}:{
     //     body: JSON.stringify(data)
     // };
 
-    // // const response = await fetch(`https://dispay.herokuapp.com/clubs`, requestOptions);
-    // // const jsonData = await response.json();
-    // const web3Modal = new Web3Modal()
-    // const connection = await web3Modal.connect()
-    // const provider = new ethers.providers.Web3Provider(connection);
-    // const signer = provider.getSigner()
-    // let contract = new ethers.Contract(FactoryAddress,Factory.abi,signer)
-    // setSuccessModal(true);
-    // reset();
+    // const response = await fetch(`https://dispay.herokuapp.com/clubs`, requestOptions);
+    // const jsonData = await response.json();
+    setLoading(true);
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner()
+    let contract = new ethers.Contract(FactoryAddress,Factory.abi,signer)
+    const depositLimit = ethers.utils.parseUnits(data.depositLimit.toString(),'ether')
+    const newDepositDate = toTimestamp(data?.depositEndDate);
+    console.log("mewDate", newDepositDate);
+    const tx = await contract.createGroup(
+      address,
+      data?.groupName,
+      data?.groupSymbol,
+      data?.address,
+      newDepositDate,
+      depositLimit,
+      data?.maxnumber
+
+    )
+
+    console.log("done");
+
+    let receipt = await tx.wait();
+    receipt.events?.filter((group: any) => {     
+          
+      if(group.event == "NewGroup"){
+        setNewGroupDetails(group);
+        localStorage.setItem("groupAddress", JSON.stringify(group));
+        setSuccessModal(true);
+        reset();
+        setGroup(false)
+        setLoading(false);
+
+      } ;   
+     }) 
+
+    console.log("done receipt", receipt);
+    console.log( "newgrouplog",
+       receipt.events?.filter((x: any) => {     
+          
+        return x.event == "NewGroup";    })  );
+
+    
+  }
+
+  const createBot = async () => {
+    setLoading(true);
+    const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+    // console.log("newGroup", newGroupDetails)
+    const args: any = groupDetails?.args[0]
+    const data = {
+      groupAddress: args
+    }
+       const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+       const response = await fetch(`http://207.154.202.18:3000/bot`, requestOptions);
+      const jsonData = await response.json();
+      if(jsonData){
+        setLoading(false);
+        setBotId(jsonData?._id)
+        setBotModal(true)
+        setBotsetup(false);
+      }
+
+      // console.log("response to bot.",jsonData)
+
+
   }
   const modalStyle = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 320,
+    width: 400,
     bgcolor: "#242526",
     borderRadius: "25px",
     boxShadow: 24,
     p: 4,
   };
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100vw",
+          height: "100vh",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress size={120} />
+      </div>
+    );
+  }
+
   return(
     <>
      <Modal
@@ -159,9 +320,74 @@ function Home({tokens}:{
     >
        <Box sx={modalStyle}
        >
-           <Typography sx={{color:"white"}}>
-              Group Created Successfully
+           <Typography sx={{
+             color:"white",
+             textAlign:"center"
+          }}>
+              Group Created Successfully <br/>
+              Please clck below to authorize group Bot
            </Typography>
+
+          <Box sx={{
+            mt:5,
+            display: 'flex',
+            justifyContent: "center"
+          }}>
+            <Link href={`https://discord.com/api/oauth2/authorize?client_id=974402155425431603&permissions=0&redirect_uri=http://localhost:3000/?bot=true&response_type=code&scope=bot%20identify`} passHref>
+              <Typography
+              sx={{
+                cursor: "pointer",
+                color:"white",
+                fontSize:"16px"
+              }}>
+              Authorize Bot
+              </Typography>
+          
+            </Link>
+       
+          </Box>
+          
+
+       </Box>
+    </Modal>
+    <Modal
+        BackdropProps={{
+        timeout: 500,
+        }}
+        closeAfterTransition
+        onClose={botModalClose}
+        open={botModal}
+    >
+       <Box sx={modalStyle}
+       >
+           <Typography sx={{
+             color:"white",
+             textAlign:"center"
+          }}>
+              Bot Created Successfully <br/>
+              Please copy the message below and paste on your server to setup Bot
+           </Typography>
+
+           
+
+          <Box sx={{
+            mt:5,
+            display: 'flex',
+            justifyContent: "center"
+          }}>
+              <Typography
+              sx={{
+                cursor: "pointer",
+                color:"white",
+                fontSize:"16px"
+              }}>
+             !setup{botId}
+
+              </Typography>
+          
+       
+          </Box>
+          
 
        </Box>
     </Modal>
@@ -182,7 +408,7 @@ function Home({tokens}:{
                 sx={{
                   textAlign:"center",
                   color:"white"}}>
-              CREATE AN INVESTMENT CLUB
+              CREATE AN GROUP CLUB
             </Typography>
                 </Box>
 
@@ -221,10 +447,10 @@ function Home({tokens}:{
                     },
                   },
                 my:2}}
-                {...register("name",
+                {...register("groupName",
                 {required:true}
                 )}
-                id="name" label="Name" variant="outlined" />
+                id="groupName" label="Name" variant="outlined" />
               <Typography variant='body1' sx={{color:"white", textAlign:"left"}}>a.k.a</Typography>
 
                 <TextField
@@ -241,10 +467,10 @@ function Home({tokens}:{
                     },
                   },
                 my:2}} 
-                {...register("description",
+                {...register("groupSymbol",
                 {required: true}
                 )}
-                id="description" label="symbol" variant="outlined" />
+                id="groupSymbol" label="symbol" variant="outlined" />
                 <Typography variant='subtitle2'
                   component="span" 
                   sx={{color:"#959ca7", textAlign:"left"}}>
@@ -283,7 +509,7 @@ function Home({tokens}:{
                           cursor:"pointer",
                           textTransform:"none"
                       }}
-                      disabled={!dirtyFields?.name}
+                      disabled={!dirtyFields?.groupName}
                       
                       variant='contained' size="medium">Next</Button>
                 </Box>
@@ -309,8 +535,8 @@ function Home({tokens}:{
                 }}>
               <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this investment club?</Typography>
               <Typography variant='subtitle1' sx={{color:"white",mr:3, textAlign:"left"}}>
-                  {getValues("name")}
-              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("description")}</Typography>
+                  {getValues("groupName")}
+              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("groupSymbol")}</Typography>
 
               </Typography>
               <Typography variant='h6' sx={{color:"white",mt:5, textAlign:"left"}}>What’s the upper limit of the club’s raise?</Typography>
@@ -325,12 +551,6 @@ function Home({tokens}:{
                 }}
                 select
                 defaultValue={currentToken}
-                onChange={(e)=> {
-                  setCurrentToken(e.target.value as string)
-                }}
-                onBlur={(e)=> {
-                  setCurrentToken(e.target.value as string)
-                }}
                 sx={{
                 input: { color: "white"},
                 label: { color: "white" },
@@ -446,8 +666,8 @@ function Home({tokens}:{
                 }}>
               <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this investment club?</Typography>
               <Typography variant='subtitle1' sx={{color:"white",mr:3, textAlign:"left"}}>
-                  {getValues("name")}
-              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("description")}</Typography>
+                  {getValues("groupName")}
+              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("groupSymbol")}</Typography>
 
               </Typography>
               <Typography variant='subtitle2' sx={{color:"#959ca7",mt:5, textAlign:"left"}}>What’s the upper limit of the club’s raise?</Typography>
@@ -582,8 +802,8 @@ function Home({tokens}:{
                 }}>
                   <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this investment club?</Typography>
                   <Typography variant='subtitle1' sx={{color:"white",mr:3, textAlign:"left"}}>
-                      {getValues("name")}
-                  <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("description")}</Typography>
+                      {getValues("groupName")}
+                  <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("groupSymbol")}</Typography>
 
                   </Typography>
                   <Typography variant='subtitle2' sx={{color:"#959ca7",mt:5, textAlign:"left"}}>What’s the upper limit of the club’s raise?</Typography>
@@ -619,12 +839,12 @@ function Home({tokens}:{
                         },
                       },
                     my:3}} 
-                    {...register("depositLimit",
+                    {...register("maxnumber",
                     {required: true}
                     )}
                     type="number"
                     InputProps={{ inputProps: { min: 0, max: 99 } }}
-                    id="depositLimit" label="Upper limit" variant="outlined" />
+                    id="maxnumber" label="Max Number" variant="outlined" />
 
 
               </Box>
@@ -654,11 +874,7 @@ function Home({tokens}:{
                       
                       variant='text' size="medium">Back</Button>
                 <Button 
-                onClick={
-                  ()=> {
-                    setSuccessModal(true)
-                  }
-                }
+                  type='submit'
                       sx={{
                           my:2,
                           backgroundColor:"white",
@@ -682,7 +898,56 @@ function Home({tokens}:{
           </>
         ) :(
           <>
-            <div style={{
+          {
+            botSetup ? (
+              <>
+                <div style={{
+              display:"flex",
+              flexDirection:"column",
+              margin:"0 auto",
+              justifyContent:"center"
+              }}>
+            
+           <Typography sx={{
+              mt:5,
+             textAlign:"center",
+             color:"#858992", fontSize:"14px"}}>
+             Click on the link below to create Bot
+            
+           </Typography>
+           <Box sx={{
+             display:"flex",
+             justifyContent:"center",
+             mt:2
+           }}>
+           <Button 
+            onClick={createBot}
+            startIcon={
+              <AddIcon sx={{color:"black"}}/>
+            }
+            sx={{
+            my:2,
+            borderRadius:"12px",
+            backgroundColor:"#ffffff",
+            color:"Black",
+            fontSize:"16px",
+            cursor:"pointer",
+            textTransform:"none",
+            width:"291px",
+            height:"52px",
+            ":hover": {
+              backgroundColor:"#7d7d7d"
+            }
+            }}
+             
+            variant='contained' size="medium">Create Bot</Button>
+           </Box>
+          
+            </div>
+              </>
+            ) : (
+              <>
+                <div style={{
               display:"flex",
               flexDirection:"column",
               margin:"0 auto",
@@ -732,6 +997,10 @@ function Home({tokens}:{
            </Box>
           
             </div>
+              </>
+            )
+          }
+          
           </>
         )
       }
@@ -742,7 +1011,7 @@ function Home({tokens}:{
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch('https://api-polygon-tokens.polygon.technology/tokenlists/testnet.tokenlist.json')
   const json = await res.json()
 

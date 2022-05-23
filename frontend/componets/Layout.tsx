@@ -31,7 +31,9 @@ const Layout = ({
                     <Box
                         component="main"
                         sx={{
-                            height:"150vh",
+                            paddingTop:"5rem",
+                            marginBottom:"5rem",
+                            paddingBottom:"5rem",
                             backgroundColor:"black",
                             margin: { xs: "auto", md: "auto", sm: "auto" },
                             flexGrow: 1,
