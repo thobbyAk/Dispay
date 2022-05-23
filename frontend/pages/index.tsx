@@ -408,7 +408,7 @@ const router = useRouter();
                 sx={{
                   textAlign:"center",
                   color:"white"}}>
-              CREATE AN GROUP CLUB
+              CREATE A GROUP 
             </Typography>
                 </Box>
 
@@ -431,7 +431,7 @@ const router = useRouter();
                 }}>
                   <Container>
                 
-              <Typography variant='body1' sx={{color:"white", textAlign:"left"}}>What should we call this investment club</Typography>
+              <Typography variant='body1' sx={{color:"white", textAlign:"left"}}>What should we call this group</Typography>
 
                   <TextField
                   fullWidth
@@ -474,10 +474,10 @@ const router = useRouter();
                 <Typography variant='subtitle2'
                   component="span" 
                   sx={{color:"#959ca7", textAlign:"left"}}>
-                    Set an easily recognizable symbol for your investment club
-                    token that powers the club&apos;s cap table management and 
+                    Set an easily recognizable symbol for your group 
+                    token that powers the group&apos;s cap table management and 
                     governance infrastructure. Members receive
-                      this investment club token (initially defaults to
+                      this group token (initially defaults to
                       non-transferable) as proof of their deposit</Typography>
                   {/* <TextField sx={{
                   input: { color: "white"},
@@ -533,13 +533,13 @@ const router = useRouter();
                   justifyContent:"center",
                   p:4
                 }}>
-              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this investment club?</Typography>
+              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this group?</Typography>
               <Typography variant='subtitle1' sx={{color:"white",mr:3, textAlign:"left"}}>
                   {getValues("groupName")}
-              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("groupSymbol")}</Typography>
+              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Group Token :{getValues("groupSymbol")}</Typography>
 
               </Typography>
-              <Typography variant='h6' sx={{color:"white",mt:5, textAlign:"left"}}>What’s the upper limit of the club’s raise?</Typography>
+              <Typography variant='h6' sx={{color:"white",mt:5, textAlign:"left"}}>What’s the upper limit of the group raise?</Typography>
               <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", my:3, textAlign:"left"}}>Accepting deposits beyond this amount will require an on-chain transaction with gas, so aim high.</Typography>
               <Typography variant='body1' sx={{color:"white", textAlign:"left"}}>Raise in</Typography>
 
@@ -664,13 +664,13 @@ const router = useRouter();
                   justifyContent:"center",
                   p:4
                 }}>
-              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this investment club?</Typography>
+              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this group?</Typography>
               <Typography variant='subtitle1' sx={{color:"white",mr:3, textAlign:"left"}}>
                   {getValues("groupName")}
-              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("groupSymbol")}</Typography>
+              <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Group Token :{getValues("groupSymbol")}</Typography>
 
               </Typography>
-              <Typography variant='subtitle2' sx={{color:"#959ca7",mt:5, textAlign:"left"}}>What’s the upper limit of the club’s raise?</Typography>
+              <Typography variant='subtitle2' sx={{color:"#959ca7",mt:5, textAlign:"left"}}>What’s the upper limit of the group raise?</Typography>
               <Typography variant="subtitle1"  sx={{color:"white", my:3, textAlign:"left"}}>{getValues("depositLimit")}
               <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>
               <img src={currentTokenDetails?.logoURI} alt={currentTokenDetails?.symbol} style={{marginRight:"10px"}} />
@@ -800,13 +800,13 @@ const router = useRouter();
                   justifyContent:"center",
                   p:4
                 }}>
-                  <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this investment club?</Typography>
+                  <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>What should we call this group?</Typography>
                   <Typography variant='subtitle1' sx={{color:"white",mr:3, textAlign:"left"}}>
                       {getValues("groupName")}
-                  <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Club Token :{getValues("groupSymbol")}</Typography>
+                  <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>Group Token :{getValues("groupSymbol")}</Typography>
 
                   </Typography>
-                  <Typography variant='subtitle2' sx={{color:"#959ca7",mt:5, textAlign:"left"}}>What’s the upper limit of the club’s raise?</Typography>
+                  <Typography variant='subtitle2' sx={{color:"#959ca7",mt:5, textAlign:"left"}}>What’s the upper limit of the groups raise?</Typography>
                   <Typography variant="subtitle1"  sx={{color:"white", my:3, textAlign:"left"}}>{getValues("depositLimit")}
                   <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", mx:3, textAlign:"left"}}>
               <img src={currentTokenDetails?.logoURI} alt={currentTokenDetails?.symbol} style={{marginRight:"10px"}} />
@@ -821,7 +821,7 @@ const router = useRouter();
                       {getValues("depositEndDate")}</Typography>
                       <Typography variant='body1' sx={{color:"white", mt:3, textAlign:"left"}}>What’s the maximum number of members?</Typography>
                       <Typography component="span" variant='subtitle2' sx={{color:"#959ca7", textAlign:"left"}}>
-                      Investment clubs may have up to 99 members according to the SEC. Syndicate 
+                      Groups may have up to 99 members according to the SEC. Syndicate 
                       encourages all users to consult with their own legal and tax counsel.
                         </Typography>
 
@@ -993,7 +993,7 @@ const router = useRouter();
             }
             }}
              
-            variant='contained' size="medium">Create an investment Club</Button>
+            variant='contained' size="medium">Create a Group</Button>
            </Box>
           
             </div>
