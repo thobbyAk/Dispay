@@ -475,7 +475,7 @@ const router = useRouter();
                   component="span" 
                   sx={{color:"#959ca7", textAlign:"left"}}>
                     Set an easily recognizable symbol for your investment club
-                    token that powers the club's cap table management and 
+                    token that powers the club&apos;s cap table management and 
                     governance infrastructure. Members receive
                       this investment club token (initially defaults to
                       non-transferable) as proof of their deposit</Typography>
