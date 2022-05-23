@@ -107,7 +107,7 @@ function Dashboard ({collections}: {
 
     React.useEffect(()=> {
         if(router.isReady){
-            const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+            const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '{}');
             if(groupDetails !== ''){
               getGroupDeatils()
             }else{
@@ -121,7 +121,7 @@ function Dashboard ({collections}: {
 
     const getGroupDeatils = async () => {
         setLoading(true);
-        const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+        const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '{}');
           const currentGroupAddress: any = groupDetails?.args[0]
           const requestOptions = {
             method: 'GET',
@@ -136,7 +136,7 @@ function Dashboard ({collections}: {
 
       const addDeposit = async () => {
           setLoading(true);
-          const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+          const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '{}');
           const currentGroupAddress: any = groupDetails?.args[0]
           console.log("groupDetails", groupDetails)
           const data = {

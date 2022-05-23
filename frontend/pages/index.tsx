@@ -119,7 +119,7 @@ const router = useRouter();
   React.useEffect(() => {
     if (router.isReady) {
       console.log('reactor', router.query)
-      const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+      const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '{}');
       if(groupDetails !== ''){
         checkIfGroupIsActivated();
 
@@ -131,7 +131,7 @@ const router = useRouter();
 
 
   const checkIfGroupIsActivated = async () => {
-    const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+    const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '{}');
       const currentGroupAddress: any = groupDetails?.args[0]
       console.log("groupDetails", groupDetails)
       const data = {
@@ -256,7 +256,7 @@ const router = useRouter();
 
   const createBot = async () => {
     setLoading(true);
-    const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '');
+    const groupDetails: any = JSON.parse(localStorage.getItem("groupAddress") || '{}');
     // console.log("newGroup", newGroupDetails)
     const args: any = groupDetails?.args[0]
     const data = {
@@ -1014,7 +1014,7 @@ const router = useRouter();
 export async function getServerSideProps() {
   const res = await fetch('https://api-polygon-tokens.polygon.technology/tokenlists/testnet.tokenlist.json')
   const json = await res.json()
-
+  // console.log(JSON.stringify(json))
   return {
     props: {
       tokens: json.tokens,
