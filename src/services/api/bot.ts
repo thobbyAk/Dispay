@@ -1,8 +1,3 @@
-import Web3Modal from 'web3modal'
-import { ethers } from 'ethers'
-import { FactoryAddress } from '../../config'
-import Factory from '../../abi/Factory.json'
-
 const baseUrl = process.env.dispayApi
 
 interface createBot {

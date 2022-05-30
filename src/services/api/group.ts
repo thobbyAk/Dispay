@@ -1,6 +1,6 @@
 import Web3Modal from 'web3modal'
 import { ethers } from 'ethers'
-import Factory from '../../abi/Factory.json'
+import Factory from '@/abi/Factory.json'
 
 export async function createGroup(data: any): Promise<any> {
   try {

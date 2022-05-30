@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IGroup } from '../../../@types/group'
+import { IGroup } from '@/types/group'
 import { Grid, Typography, Box } from '@mui/material'
 import Layout from '../../Layout'
 import { useFormContext } from 'react-hook-form'

@@ -6,10 +6,10 @@ import {
   Box,
   CircularProgress,
 } from '@mui/material'
-import Layout from '../../components/Layout'
+import Layout from '@/components/Layout'
 import { useRouter } from 'next/router'
-import { createBot } from '../../services/api/bot'
-import ClipboardCopy from '../../components/utils/ClipBoardCopy'
+import { createBot } from '@/services/api/bot'
+import ClipboardCopy from '@/components/utils/ClipBoardCopy'
 
 function BotCallBack() {
   const router = useRouter()

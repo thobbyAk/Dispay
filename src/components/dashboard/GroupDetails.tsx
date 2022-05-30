@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import Avatar from 'boring-avatars'
-import { IGroup } from '../../@types/group'
-import { getGroup } from '../../services/api/group'
+import { IGroup } from '@/types/group'
 
 interface IGroupDetails {
   group: IGroup
