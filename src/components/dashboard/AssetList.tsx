@@ -9,10 +9,7 @@ import {
   CardContent,
 } from '@mui/material'
 
-interface IGroupDetails {
-  groupAddress: string | undefined
-}
-function GroupAssets() {
+function AssetList() {
   const [collectibles, setCollectibles] = React.useState([])
 
   React.useEffect(() => {
@@ -92,4 +89,4 @@ function GroupAssets() {
   )
 }
 
-export default GroupAssets
+export default AssetList

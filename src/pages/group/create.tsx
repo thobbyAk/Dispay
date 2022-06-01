@@ -1,9 +1,9 @@
 import * as React from 'react'
-import Step1 from '../../components/forms/createGroup/Step1'
-import FormCard from '../../components/forms/createGroup/FormCard'
-import Step2 from '../../components/forms/createGroup/Step2'
-import Step3 from '../../components/forms/createGroup/Step3'
-import Step4 from '../../components/forms/createGroup/Step4'
+import Step1 from '@/components/forms/createGroup/Step1'
+import FormCard from '@/components/forms/createGroup/FormCard'
+import Step2 from '@/components/forms/createGroup/Step2'
+import Step3 from '@/components/forms/createGroup/Step3'
+import Step4 from '@/components/forms/createGroup/Step4'
 import { useForm, FormProvider } from 'react-hook-form'
 
 function CreateGroup({ tokens }: any) {

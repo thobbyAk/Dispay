@@ -2,7 +2,9 @@ import Web3Modal from 'web3modal'
 import { ethers } from 'ethers'
 import Factory from '@/abi/Factory.json'
 
-export async function createGroup(data: any): Promise<any> {
+export async function createGroup(
+  data: any
+): Promise<{ result: any; error: any }> {
   try {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
@@ -17,11 +19,13 @@ export async function createGroup(data: any): Promise<any> {
     )
     return { result, error: null }
   } catch (error) {
-    return { resul: null, error }
+    return { result: null, error }
   }
 }
 
-export async function getGroup(groupAddress: string): Promise<any> {
+export async function getGroupByAddress(
+  groupAddress: string
+): Promise<{ result: any; error: any }> {
   try {
     const requestOptions = {
       method: 'GET',
@@ -34,11 +38,11 @@ export async function getGroup(groupAddress: string): Promise<any> {
     const result = await response.json()
     return { result, error: null }
   } catch (error) {
-    return { resul: null, error }
+    return { result: null, error }
   }
 }
 
-export async function getAllGroup(): Promise<any> {
+export async function getAllGroup(): Promise<{ result: any; error: any }> {
   try {
     const requestOptions = {
       method: 'GET',
@@ -49,9 +53,27 @@ export async function getAllGroup(): Promise<any> {
       requestOptions
     )
     const result = await response.json()
-    console.log(result)
     return { result, error: null }
   } catch (error) {
     return { resul: null, error }
+  }
+}
+
+export async function getGroupMembers(
+  groupAddress: string
+): Promise<{ result: any; error: any }> {
+  try {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }
+    const response = await fetch(
+      `${process.env.dispayApi}/groups/${groupAddress}/members`,
+      requestOptions
+    )
+    const result = await response.json()
+    return { result, error: null }
+  } catch (error) {
+    return { result: null, error }
   }
 }

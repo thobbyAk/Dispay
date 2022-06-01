@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import Avatar from 'boring-avatars'
 import { IGroup } from '@/types/group'
+import { ethers } from 'ethers'
 
-interface IGroupDetails {
+interface IDetails {
   group: IGroup
 }
-function GroupDetails({ group }: IGroupDetails) {
+function Details({ group }: IDetails) {
   return (
     <>
       <Box sx={{ my: 4 }}>
@@ -50,7 +51,7 @@ function GroupDetails({ group }: IGroupDetails) {
                 variant="body1"
                 sx={{ color: 'white', textAlign: 'left' }}
               >
-                {group?.depositLimit} ETH
+                {ethers.utils.formatEther(group?.depositLimit)} ETH
               </Typography>
             </Box>
           </Grid>
@@ -66,6 +67,12 @@ function GroupDetails({ group }: IGroupDetails) {
                 sx={{ color: '#959ca7', textAlign: 'left' }}
               >
                 Total Deposited
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{ color: 'white', textAlign: 'left' }}
+              >
+                {ethers.utils.formatEther(group?.totalDeposited || 0)} ETH
               </Typography>
             </Box>
           </Grid>
@@ -96,4 +103,4 @@ function GroupDetails({ group }: IGroupDetails) {
   )
 }
 
-export default GroupDetails
+export default Details

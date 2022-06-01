@@ -4,34 +4,41 @@ import {
   TextField,
   Typography,
   Box,
+  Button,
   CircularProgress,
 } from '@mui/material'
 import Layout from '@/components/Layout'
 import { useRouter } from 'next/router'
 import { createBot } from '@/services/api/bot'
 import ClipboardCopy from '@/components/utils/ClipBoardCopy'
+import useLocalStorage from 'src/hooks/localStorage'
 
 function BotCallBack() {
   const router = useRouter()
-  const [groupAddress, setGroupAddress] = React.useState<string | null>(null)
   const [isBotCreated, setIsBotCreated] = React.useState(true)
   const [botId, setBotId] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(true)
+  const [pendingAddress, setPendingAddress] = useLocalStorage<string>(
+    'groupAddressPending',
+    ''
+  )
 
   React.useEffect(() => {
     if (router.isReady) {
-      const groupAddress = localStorage.getItem('groupAddressPending')
-      setGroupAddress(groupAddress)
       setIsLoading(false)
-      if (groupAddress) handleBotCreation(groupAddress.toString())
+      if (pendingAddress) handleBotCreation(pendingAddress)
     }
   }, [router.isReady, router.query, router.pathname])
 
-  async function handleBotCreation(groupAddress: string) {
-    if (groupAddress) {
-      const { result, error } = await createBot({ groupAddress })
-      setBotId(result._id)
-      localStorage.removeItem('groupAddressPending')
+  async function handleBotCreation(pendingAddress: string) {
+    if (pendingAddress) {
+      const { result, error } = await createBot({
+        groupAddress: pendingAddress,
+      })
+      if (result) {
+        setBotId(result._id)
+        // localStorage.removeItem('pendingAddress')
+      }
     }
   }
 
@@ -101,6 +108,45 @@ function BotCallBack() {
               </Box>
             </Typography>
           </Box>
+          <Box
+            sx={{
+              mt: 5,
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography
+              sx={{
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '16px',
+              }}
+            >
+              <Box
+                sx={{
+                  width: 500,
+                  maxWidth: '100%',
+                }}
+              >
+                <Button
+                  onClick={() => router.push(`/group/${pendingAddress.toLowerCase()}/dashboard`)}
+                  type="submit"
+                  sx={{
+                    my: 2,
+                    backgroundColor: 'white',
+                    color: 'black',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    textTransform: 'none',
+                  }}
+                  variant="contained"
+                  size="medium"
+                >
+                  Go to dashboard
+                </Button>
+              </Box>
+            </Typography>
+          </Box>
         </>
       )
     return (
@@ -131,7 +177,7 @@ function BotCallBack() {
               justifyContent="Center"
               alignItems="center"
             >
-              {groupAddress ? (
+              {pendingAddress ? (
                 <>
                   <Box sx={{ flexGrow: 1 }}>
                     <Typography

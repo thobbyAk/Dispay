@@ -1,12 +1,23 @@
 import * as React from 'react'
 import { Grid, Button, Typography, Box, Link } from '@mui/material'
-import Layout from '../../../../components/Layout'
+import Layout from '@/components/Layout'
 import { useRouter } from 'next/router'
+import useLocalStorage from 'src/hooks/localStorage'
 
 function Authorize() {
   const router = useRouter()
-  const { groupAddress } = router.query;
-  if(groupAddress)  localStorage.setItem("groupAddressPending", groupAddress.toString());
+  const [pendingAddress, setPendingAddress] = useLocalStorage<string>(
+    'groupAddressPending',
+    ''
+  )
+
+  React.useEffect(() => {
+    if (router.isReady) {
+      const { groupAddress } = router.query
+      if (groupAddress) setPendingAddress(groupAddress.toString())
+    }
+  }, [router.isReady, router.query, router.pathname])
+
   const redirectUri = process.env.redirectUri
   const discordUrl = `https://discord.com/api/oauth2/authorize?client_id=974402155425431603&permissions=0&redirect_uri=${redirectUri}&response_type=code&scope=bot%20identify`
   return (

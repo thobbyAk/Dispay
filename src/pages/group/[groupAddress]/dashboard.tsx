@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from '../../../components/Layout'
+import Layout from '@/components/Layout'
 import {
   ListItemIcon,
   IconButton,
@@ -14,22 +14,25 @@ import {
   Container,
   CircularProgress,
 } from '@mui/material'
-import { getAllGroup, getGroup } from '../../../services/api/group'
-import GroupDetails from '../../../components/dashboard/GroupDetails'
+import { getAllGroup, getGroupByAddress } from '@/services/api/group'
+import Details from '@/components/dashboard/Details'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium'
 import SettingsIcon from '@mui/icons-material/Settings'
 import CachedSharpIcon from '@mui/icons-material/CachedSharp'
-import GroupAssets from '../../../components/dashboard/GroupAssets'
-import { IGroup } from '../../../@types/group'
+import AssetList from '@/components/dashboard/AssetList'
+import { IGroup } from '@/types/group'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
+import MemberList from '@/components/dashboard/MemberList'
+import useLocalStorage from 'src/hooks/localStorage'
 
 interface IDasboard {
   group: IGroup
 }
 function Dashboard({ group }: IDasboard) {
+  const [name, setName] = useLocalStorage<string>('nfdjdf', 'hello')
   const [loading, setLoading] = React.useState(false)
   const [value, setValue] = React.useState('1')
 
@@ -60,7 +63,7 @@ function Dashboard({ group }: IDasboard) {
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12} md={7} lg={7}>
-                <GroupDetails group={group} />
+                <Details group={group} />
               </Grid>
               <Grid item xs={12} sm={12} md={5} lg={5}>
                 <Box
@@ -190,9 +193,11 @@ function Dashboard({ group }: IDasboard) {
                 </TabList>
               </Box>
               <TabPanel value="1">
-                <GroupAssets />
+                <AssetList />
               </TabPanel>
-              <TabPanel value="2">Item Two</TabPanel>
+              <TabPanel value="2">
+                <MemberList groupAddress={group.address} />{' '}
+              </TabPanel>
               <TabPanel value="3">Item Three</TabPanel>
             </TabContext>
           </Box>
@@ -213,7 +218,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const { result } = await getGroup(params.groupAddress)
+  const { result } = await getGroupByAddress(params.groupAddress)
 
   return {
     props: {

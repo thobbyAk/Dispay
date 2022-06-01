@@ -34,10 +34,11 @@ export default function Step4({ nextFormStep, prevFormStep }: IStepper) {
       groupForm.maxMembers,
     ]
     const { result, error } = await createGroup(groupPayLoad)
+    console.log(result)
     setLoading(false)
     if (error) return
     const { groupAddress } = result[0].args
-    router.push(`/group/${groupAddress}/bot/authorize`)
+    router.push(`/group/${groupAddress.toLowerCase()}/bot/authorize`)
   }
 
   const [loading, setLoading] = React.useState(false)

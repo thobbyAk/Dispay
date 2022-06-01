@@ -20,7 +20,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Image from 'next/image';
 import Factory from "../abi/Factory.json"
 import Web3Modal from "web3modal"
-import { toTimestamp } from '../services/utils/util';
+import { toTimestamp } from '@/services/utils/util';
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
 
@@ -30,7 +30,7 @@ import { Container } from 'reactstrap';
 
 import {
   FactoryAddress
-} from '../config';
+} from '../../config';
 import Link from 'next/link';
 
 
