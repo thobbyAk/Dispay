@@ -24,19 +24,16 @@ import { ethers } from 'ethers'
 import { shortenAddress } from '@/services/utils/util'
 import Container from '@mui/material/Container'
 import Link from 'next/link'
+import useLocalStorage from '@/hooks/localStorage'
 
 export default function Header() {
-  const [userAddress, setWalletAddress] = React.useState('')
+  const [mounted, setMounted] = React.useState(false);
+  const [userAddress, setWalletAddress] = useLocalStorage<string>('account', '')
+  React.useEffect(() => setMounted(true), []);
   const [noMetamaskModal, shownoMetamaskModal] = React.useState(false)
   const noMetaMaskModalClose = () => {
     shownoMetamaskModal(false)
   }
-  React.useEffect(() => {
-    if (localStorage.getItem('account')) {
-      const existingUser: any = localStorage.getItem('account')
-      setWalletAddress(existingUser)
-    }
-  }, [])
 
   const [anchorElWalletInfo, setAnchorElWalletInfo] =
     React.useState<HTMLButtonElement | null>(null)
@@ -61,7 +58,6 @@ export default function Header() {
           method: 'eth_requestAccounts',
         })
         setWalletAddress(accounts[0])
-        localStorage.setItem('account', accounts[0])
       } catch (error) {
         console.log(error)
       }
@@ -95,6 +91,7 @@ export default function Header() {
     boxShadow: 24,
     p: 4,
   }
+  if(!mounted) return(<></>);
   return (
     <>
       <Modal

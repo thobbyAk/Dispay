@@ -20,7 +20,8 @@
       "@/components/*": ["src/components/*"],
       "@/services/*": ["src/services/*"],
       "@/types/*": ["src/@types/*"],
-      "@/abi/*": ["src/abi/*"]
+      "@/abi/*": ["src/abi/*"],
+      "@/hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

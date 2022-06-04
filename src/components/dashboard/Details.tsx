@@ -3,11 +3,15 @@ import { Box, Grid, Typography } from '@mui/material'
 import Avatar from 'boring-avatars'
 import { IGroup } from '@/types/group'
 import { ethers } from 'ethers'
+import { tokenList, Itoken } from '@/services/utils/tokenList'
 
 interface IDetails {
   group: IGroup
 }
 function Details({ group }: IDetails) {
+  const depositToken: Itoken = tokenList.filter(
+    (token) => token.address === group?.depositToken
+  )[0]
   return (
     <>
       <Box sx={{ my: 4 }}>
@@ -45,13 +49,13 @@ function Details({ group }: IDetails) {
                 variant="body1"
                 sx={{ color: '#959ca7', textAlign: 'left' }}
               >
-                Deposit Limit
+                Club token max supply
               </Typography>
               <Typography
                 variant="body1"
                 sx={{ color: 'white', textAlign: 'left' }}
               >
-                {ethers.utils.formatEther(group?.depositLimit)} ETH
+                {ethers.utils.formatEther(group?.depositLimit)} {depositToken.symbol}
               </Typography>
             </Box>
           </Grid>
@@ -66,13 +70,13 @@ function Details({ group }: IDetails) {
                 variant="body1"
                 sx={{ color: '#959ca7', textAlign: 'left' }}
               >
-                Total Deposited
+                Member deposits
               </Typography>
               <Typography
                 variant="body1"
                 sx={{ color: 'white', textAlign: 'left' }}
               >
-                {ethers.utils.formatEther(group?.totalDeposited || 0)} ETH
+                {ethers.utils.formatEther(group?.totalDeposited || 0)} {depositToken.symbol}
               </Typography>
             </Box>
           </Grid>
@@ -87,13 +91,13 @@ function Details({ group }: IDetails) {
                 variant="body1"
                 sx={{ color: '#959ca7', textAlign: 'left' }}
               >
-                Total Minted
+                Club token minted
               </Typography>
               <Typography
                 variant="body1"
                 sx={{ color: 'white', textAlign: 'left' }}
               >
-                {group?.totalMinted} ETH
+              {ethers.utils.formatEther(group?.totalMinted || 0)} {group.symbol}
               </Typography>
             </Box>
           </Grid>

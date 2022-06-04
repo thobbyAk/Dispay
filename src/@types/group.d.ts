@@ -6,18 +6,15 @@ interface Itoken {
 }
 
 export interface IGroup {
+  depositToken: string
   address: string
   symbol: string
   name: string
+  owner:string
   depositLimit: number
   depositEndDate: Date
   token:Itoken | null
   maxMembers:number
   totalDeposited?:number
   totalMinted?:number
-}
-
-export type GroupContextType = {
-  group: IGroup
-  handleSetGroup: (todo: IGroup) => void
 }

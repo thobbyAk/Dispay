@@ -5,13 +5,15 @@ import Step2 from '@/components/forms/createGroup/Step2'
 import Step3 from '@/components/forms/createGroup/Step3'
 import Step4 from '@/components/forms/createGroup/Step4'
 import { useForm, FormProvider } from 'react-hook-form'
+import { tokenList } from '@/services/utils/tokenList'
+function CreateGroup() {
 
-function CreateGroup({ tokens }: any) {
+  console.log(tokenList[0])
   const methods = useForm({
-      defaultValues: {
-        depositEndDate: new Date(),
-        token:tokens[0]
-      }
+    defaultValues: {
+      depositEndDate: new Date(),
+      token: tokenList[0],
+    },
   })
 
   const [formStep, setFormStep] = React.useState(0)
@@ -29,7 +31,7 @@ function CreateGroup({ tokens }: any) {
             <Step2
               nextFormStep={nextFormStep}
               prevFormStep={prevFormStep}
-              tokens={tokens}
+              tokens={tokenList}
             />
           )}
           {formStep === 2 && (
@@ -42,14 +44,6 @@ function CreateGroup({ tokens }: any) {
       </FormProvider>
     </>
   )
-}
-
-export async function getServerSideProps() {
-  const url: string = process.env.tokenListUrl || ''
-  const res = await fetch(url)
-  const data = await res.json()
-  const tokens = data.tokens || []
-  return { props: { tokens } }
 }
 
 export default CreateGroup
